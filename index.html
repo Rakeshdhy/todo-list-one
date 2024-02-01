@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+    <link rel="stylesheet" href="global.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="wrapper">
+
+            <h1> <img src="images/notes.png" alt="" srcset="">Notes</h1>
+            <button class="btn"> <img src="images/edit.png" alt="" srcset=""> Create Notes</button>
+
+            <div>
+                <div class="list-container">
+                    <!-- <p contenteditable="true" class="list-notes">
+<img src="images/delete.png" alt="" srcset="" class="delete-icon">
+</p> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const listContainer = document.querySelector(".list-container");
+        const crtBtn = document.querySelector(".btn")
+        const notes = document.querySelectorAll(".list-notes");
+
+
+
+        function showNotes() {
+            listContainer.innerHTML = localStorage.getItem("notes");
+        }
+     
+        showNotes();
+
+
+        function updateStorage() {
+            localStorage.setItem("notes", listContainer.innerHTML);
+        }
+
+
+
+
+        crtBtn.addEventListener("click", () => {
+            let p = document.createElement("p");
+
+            p.className = "list-notes";
+
+            p.setAttribute("contenteditable", "true");
+
+            let img = document.createElement("img");
+
+            img.src = "images/delete.png";
+
+            img.className = "delete-icon"
+
+            listContainer.appendChild(p).appendChild(img);
+        });
+
+
+        listContainer.addEventListener("click", function (e) {
+            if (e.target.tagName === "IMG") {
+                e.target.parentElement.remove();
+                updateStorage()
+            } 
+
+            else if (e.target.tagName === "P") {
+                notes = document.querySelectorAll(".list-notes");
+                notes.forEach(nt => {
+                    nt.onkeyup = function () {
+                        updateStorage()                    }
+                })
+            }
+
+        });
+
+
+
+
+
+    </script>
+
+
+
+
+
+</body>
+
+</html>
